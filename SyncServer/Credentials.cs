@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
     public class Credentials
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
 
@@ -61,24 +61,13 @@ using Microsoft.AspNetCore.Mvc;
                 var users = db.GetCollection<Credentials>("users");
                 string newServer = $@".\{newUser}";
                 Directory.CreateDirectory(newServer);
-                var User = new Credentials
-                {
+            var User = new Credentials
+            {
+                    Id = Guid.NewGuid().ToString(),
                     Username = newUser,
                     Password = passwordHash,
                 };
                 users.Insert(User);
             }
         }
-
-        /*public static void DirectorySync(string username)
-        {
-            Console.WriteLine("Authenticated!");
-            DirectoryInfo local = new DirectoryInfo($@"E:\{username}-local");
-            DirectoryInfo server = new DirectoryInfo($@"E:\{username}-server");
-            SyncUp syncer = new SyncUp(local, server);
-            Console.WriteLine("Beginning sync process...");
-            syncer.StartTimer();
-        }
-        */
     }
-

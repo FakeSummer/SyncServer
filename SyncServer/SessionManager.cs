@@ -1,27 +1,31 @@
-﻿using System;
+﻿using SyncServer;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public static class SessionManager
+namespace SyncServer
 {
-    private static Guid token;
-    private static List<Guid> sessionTokens = new List<Guid>();
 
-    public static void SaveSession(Guid tokenID)
-	{
-        sessionTokens.Add(tokenID);
-	}
-
-    public static bool VerifySession(Guid tokenID)
+    public class SessionManager : ISessionManager
     {
+        private List<Guid> sessionTokens = new List<Guid>();
 
-        foreach (Guid Id in sessionTokens)
+        public void SaveSession(Guid tokenID)
         {
-            if (Id.Equals(token))
-            {
-                return true;
-            }
+            sessionTokens.Add(tokenID);
         }
-    return false;
+
+        public bool VerifySession(Guid tokenID)
+        {
+
+            foreach (Guid Id in sessionTokens)
+            {
+                if (Id.Equals(tokenID))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
